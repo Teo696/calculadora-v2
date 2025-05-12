@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Tablas para Niños</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(to right, #ffecd2, #fcb69f);
+            text-align: center;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff8dc;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #f76c6c;
+        }
+
+        .animal {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 1.5em;
+            margin: 20px 0;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            width: 80px;
+        }
+
+        button {
+            background-color: #ffb347;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #ffa07a;
+        }
+
+        .score {
+            font-size: 1.2em;
+            margin-top: 20px;
+            color: green;
+        }
+
+        .message {
+            font-size: 1.2em;
+            color: #555;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="animal-img" src="animal1.png" class="animal" alt="Animal divertido">
+        <h1>¡Practica las Tablas de Multiplicar!</h1>
+        <div class="question" id="question">¿Cuánto es 2 × 3?</div>
+        <input type="number" id="answer" placeholder="Tu respuesta">
+        <br>
+        <button onclick="checkAnswer()">Responder</button>
+        <div class="message" id="message"></div>
+        <div class="score" id="score">Puntos: 0</div>
+    </div>
+
+    <script>
+        let puntos = 0;
+        let multiplicando, multiplicador;
+
+        const animales = [
+            'animal1.png',
+            'animal2.png',
+            'animal3.png',
+            'animal4.png'
+        ];
+
+        function nuevaPregunta() {
+            multiplicando = Math.floor(Math.random() * 10);
+            multiplicador = Math.floor(Math.random() * 10);
+            document.getElementById('question').textContent = `¿Cuánto es ${multiplicando} × ${multiplicador}?`;
+            document.getElementById('answer').value = '';
+
+            // Cambiar imagen del animal aleatoriamente
+            const animal = animales[Math.floor(Math.random() * animales.length)];
+            document.getElementById('animal-img').src = animal;
+        }
+
+        function checkAnswer() {
+            const respuesta = parseInt(document.getElementById('answer').value);
+            const correcto = multiplicando * multiplicador;
+            const mensaje = document.getElementById('message');
+
+            if (respuesta === correcto) {
+                puntos += 5;
+                mensaje.textContent = '¡Muy bien! ¡Sigue así! 🐶';
+            } else {
+                mensaje.textContent = `¡Ups! La respuesta correcta era ${correcto}. 🐱`;
+            }
+
+            document.getElementById('score').textContent = `Puntos: ${puntos}`;
+
+            if (puntos >= 20) {
+                mensaje.textContent = '🎉 ¡Felicitaciones! Has completado el juego con 20 puntos 🎉';
+                puntos = 0;
+                setTimeout(() => {
+                    document.getElementById('score').textContent = `Puntos: 0`;
+                    mensaje.textContent = '';
+                    nuevaPregunta();
+                }, 3000);
+            } else {
+                setTimeout(nuevaPregunta, 1000);
+            }
+        }
+
+        window.onload = nuevaPregunta;
+    </script>
+</body>
+</html>
